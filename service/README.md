@@ -23,3 +23,7 @@ Check your log:
     systemctl status shadowsocks-libev-manager@custom-config.service
 
 That's all.
+
+Sure, you could definitely use `ss-manager` with `tmux` or `screen` instead of systemd service:
+
+    ss-manager --manager 127.0.0.1:2333 --executable /usr/bin/ss-server -c multi-user.json -u -v
