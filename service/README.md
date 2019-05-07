@@ -11,6 +11,7 @@ Generally, **IT'S TOO DIFFICULT TO DECIDE WHICHT PORT TO USE.** LOL.
 Copy `ss-manager` service file to the location of systemd unit-files:
 
     sudo cp shadowsocks-libev-manager@.service /lib/systemd/system/shadowsocks-libev-manager@.service
+    sudo systemctl daemon-reload
 
 Enable `shadowsocks-libev-manager` service with your custom configuration located in `/etc/shadowsocks-libev/custom-config.json`:
 
