@@ -29,31 +29,35 @@ The priciples of tuning parameters for shadowsocks are
 
 Here is an example `/etc/sysctl.conf` of our production servers:
 
-    fs.file-max = 51200
+```
+sudo tee -a /etc/sysctl.d/20-ss-tuning.conf << EOF
+# fs.file-max = 51200
+fs.file-max = 8192
 
-    net.core.rmem_max = 67108864
-    net.core.wmem_max = 67108864
-    net.core.netdev_max_backlog = 250000
-    net.core.somaxconn = 4096
+net.core.rmem_max = 67108864
+net.core.wmem_max = 67108864
+net.core.netdev_max_backlog = 250000
+net.core.somaxconn = 4096
 
-    net.ipv4.ip_local_port_range = 10000 65000
-    net.ipv4.tcp_syncookies = 1
-    net.ipv4.tcp_tw_reuse = 1
-    net.ipv4.tcp_tw_recycle = 0
-    net.ipv4.tcp_fin_timeout = 30
-    net.ipv4.tcp_keepalive_time = 1200
-    net.ipv4.tcp_max_syn_backlog = 8192
-    net.ipv4.tcp_max_tw_buckets = 5000
-    net.ipv4.tcp_mem = 25600 51200 102400
-    net.ipv4.tcp_rmem = 4096 87380 67108864
-    net.ipv4.tcp_wmem = 4096 65536 67108864
-    net.ipv4.tcp_mtu_probing = 1
-    net.ipv4.tcp_fastopen = 3
-
-    net.core.default_qdisc = fq
-    net.ipv4.tcp_congestion_control = bbr
+net.ipv4.ip_local_port_range = 10000 65000
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 1200
+net.ipv4.tcp_max_syn_backlog = 8192
+net.ipv4.tcp_max_tw_buckets = 5000
+net.ipv4.tcp_mem = 25600 51200 102400
+net.ipv4.tcp_rmem = 4096 87380 67108864
+net.ipv4.tcp_wmem = 4096 65536 67108864
+net.ipv4.tcp_mtu_probing = 1
+net.ipv4.tcp_fastopen = 3
+EOF
+```
 
 Of course, remember to execute `sysctl -p` to reload the config at runtime.
+
+> TFO is enabled for client operations by setting bit 0 (with a value of "1" ). Bit 1 (value "2" ) enables TFO for server operations; setting both bits (with a value of "3" ) enables both modes.
 
 ## 开启 TCP BBR
 
@@ -67,7 +71,7 @@ Of course, remember to execute `sysctl -p` to reload the config at runtime.
 
 或通过配置文件中设置进行加载
 
-    sudo echo "tcp_bbr" >> /etc/modules-load.d/network-bbr.conf
+    echo "tcp_bbr" | sudo tee -a /etc/modules-load.d/network-bbr.conf
 
 通过以下方式确保系统中已经装载 `BBR` 模块
 
@@ -78,8 +82,17 @@ Of course, remember to execute `sysctl -p` to reload the config at runtime.
 
 修改系统变量：
 
-    >> echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf.d/20-network-bbr.conf
-    >> echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf.d/20-network-bbr.conf
+```shell
+sudo tee -a /etc/sysctl.d/20-network-bbr.conf << EOF
+net.core.default_qdisc = fq
+net.ipv4.tcp_congestion_control = bbr
+EOF
+```
+
+About choice of `fq` or [`fq_codel`](https://www.bufferbloat.net/projects/codel/wiki/):
+
+- `net.core.default_qdisc = fq_codel` - best general purpose qdisc
+- `net.core.default_qdisc = fq` - for fat servers, fq_codel for routers.
 
 保存生效
 
