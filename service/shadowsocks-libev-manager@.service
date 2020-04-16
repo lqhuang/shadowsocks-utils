@@ -21,7 +21,7 @@ LimitNOFILE=32768
 MAXFD=32768
 User=nobody
 Group=nogroup
-ExecStart=/usr/bin/ss-manager --manager-address 127.0.0.1:2333 --executable /usr/bin/ss-server -c /etc/shadowsocks-libev/%i.json --fast-open -u
+ExecStart=ss-manager --manager-address 127.0.0.1:2333 --executable ss-server --fast-open -c /etc/shadowsocks-libev/%i.json
 
 [Install]
 WantedBy=multi-user.target
