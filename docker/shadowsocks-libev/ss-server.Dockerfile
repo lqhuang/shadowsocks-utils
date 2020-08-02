@@ -16,7 +16,7 @@ USER root
 RUN set -ex \
     && mkdir -p /etc/shadowsocks-libev \
     && apk add --no-cache --virtual .build-deps tar xz \
-    && wget -c -O /root/v2ray-plugin.tar.gz https://github.com/shadowsocks/v2ray-plugin/releases/download/${V2RAY_PLUGIN_VERSION}/v2ray-plugin-linux-amd64-${V2RAY_PLUGIN_VERSION}.tar.gz \
+    && wget -cq -O /root/v2ray-plugin.tar.gz https://github.com/shadowsocks/v2ray-plugin/releases/download/${V2RAY_PLUGIN_VERSION}/v2ray-plugin-linux-amd64-${V2RAY_PLUGIN_VERSION}.tar.gz \
     && tar -xvzf /root/v2ray-plugin.tar.gz -C /usr/local/bin \
     && mv /usr/local/bin/v2ray-plugin_linux_amd64 /usr/local/bin/v2ray-plugin \
     && rm -f /root/v2ray-plugin.tar.gz \
