@@ -19,7 +19,7 @@ RUN set -ex \
 
 RUN set -ex \
     && apk add --update --no-cache libsodium \
-    && wget -cq -O /root/shadowsocks-rust.tar.xz https://github.com/shadowsocks/shadowsocks-rust/releases/download/${SHADOWSOCKS_RUST_VERSION}/shadowsocks-${SHADOWSOCKS_RUST_VERSION}-stable.x86_64-unknown-linux-musl.tar.xz \
+    && wget -cq -O /root/shadowsocks-rust.tar.xz https://github.com/shadowsocks/shadowsocks-rust/releases/download/${SHADOWSOCKS_RUST_VERSION}/shadowsocks-${SHADOWSOCKS_RUST_VERSION}.x86_64-unknown-linux-musl.tar.xz \
     && tar -xvJf /root/shadowsocks-rust.tar.xz -C /usr/local/bin \
     && rm -f /root/shadowsocks-rust.tar.xz
 
