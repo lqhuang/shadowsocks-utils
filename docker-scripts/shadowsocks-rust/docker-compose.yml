@@ -2,7 +2,7 @@ version: "3"
 
 services:
   sslocal:
-    image: lqhuang/shadowsocks-libev-v2ray-plugin:sslocal-v1.8.13-v2ray-plugin-v1.3.1
+    image: lqhuang/shadowsocks-rust:sslocal-v1.8.13-v2ray-plugin-v1.3.1
     container_name: ss-local
     hostname: ss-local
     restart: always
