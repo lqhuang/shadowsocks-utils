@@ -1,12 +1,12 @@
 
-SHADOWSOCKS_RUST_VERSION=v1.8.13
+SHADOWSOCKS_RUST_VERSION=v1.8.18
 V2RAY_PLUGIN_VERSION=v1.3.1
 PROXY=none
 
 ss-local-v2ray:
 	docker build \
-		-t lqhuang/shadowsocks-rust:sslocal-${SHADOWSOCKS_RUST_VERSION}-v2ray-plugin-${V2RAY_PLUGIN_VERSION} \
-		-t lqhuang/shadowsocks-rust:sslocal-v2ray-latest \
+		-t lqhuang/shadowsocks-rust:ss-local-${SHADOWSOCKS_RUST_VERSION}-v2ray-plugin-${V2RAY_PLUGIN_VERSION} \
+		-t lqhuang/shadowsocks-rust:ss-local-v2ray-latest \
 		-f ss-local.Dockerfile \
 		--build-arg SHADOWSOCKS_RUST_VERSION=${SHADOWSOCKS_RUST_VERSION} \
 		--build-arg V2RAY_PLUGIN_VERSION=${V2RAY_PLUGIN_VERSION} \
@@ -16,8 +16,8 @@ ss-local-v2ray:
 
 ss-server-v2ray:
 	docker build \
-		-t lqhuang/shadowsocks-rust:ssserver-${SHADOWSOCKS_RUST_VERSION}-v2ray-plugin-${V2RAY_PLUGIN_VERSION} \
-		-t lqhuang/shadowsocks-rust:ssserver-v2ray-latest \
+		-t lqhuang/shadowsocks-rust:ss-server-${SHADOWSOCKS_RUST_VERSION}-v2ray-plugin-${V2RAY_PLUGIN_VERSION} \
+		-t lqhuang/shadowsocks-rust:ss-server-v2ray-latest \
 		-f ss-server.Dockerfile \
 		--build-arg SHADOWSOCKS_RUST_VERSION=${SHADOWSOCKS_RUST_VERSION} \
 		--build-arg V2RAY_PLUGIN_VERSION=${V2RAY_PLUGIN_VERSION} \
