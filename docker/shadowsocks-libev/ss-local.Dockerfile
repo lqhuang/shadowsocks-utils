@@ -32,4 +32,4 @@ expose ${LOCAL_PORT}/tcp ${LOCAL_PORT}/udp 8118/tcp
 HEALTHCHECK --timeout=10s CMD curl -x http://localhost:8118 https://www.google.com/gen_204 || exit 1
 
 CMD privoxy /etc/privoxy/config \
-    && sslocal -b ${LOCAL_SERVER} --fast-open --reuse-port --no-delay -u -c ${CONFIG_FILE} ${ARGS}
+    && ss-local -b ${LOCAL_SERVER} --fast-open --reuse-port --no-delay -u -c ${CONFIG_FILE} ${ARGS}

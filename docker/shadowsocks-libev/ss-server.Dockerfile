@@ -26,4 +26,4 @@ USER nobody
 
 expose ${SERVER_PORT}/tcp ${SERVER_PORT}/udp
 
-CMD ssserver -b ${SERVER_ADDR} --fast-open --reuse-port --no-delay -u -c ${CONFIG_FILE} ${ARGS}
+CMD ss-server -b ${SERVER_ADDR} --fast-open --reuse-port --no-delay -u -c ${CONFIG_FILE} ${ARGS}
