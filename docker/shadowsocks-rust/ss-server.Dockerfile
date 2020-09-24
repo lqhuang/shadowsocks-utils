@@ -35,4 +35,4 @@ USER nobody
 
 expose ${SERVER_PORT}/tcp ${SERVER_PORT}/udp
 
-CMD ssserver --server-addr ${SERVER_ADDR}:${SERVER_PORT} -u tcp_and_udp -c ${CONFIG_FILE} ${ARGS}
+CMD ssserver --server-addr ${SERVER_ADDR}:${SERVER_PORT} -u -c ${CONFIG_FILE} ${ARGS}
