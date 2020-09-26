@@ -3,6 +3,8 @@ SHADOWSOCKS_RUST_VERSION=v1.8.18
 V2RAY_PLUGIN_VERSION=v1.3.1
 PROXY=none
 
+all: ss-local-v2ray ss-server-v2ray
+
 ss-local-v2ray:
 	docker build \
 		-t lqhuang/shadowsocks-rust:ss-local-${SHADOWSOCKS_RUST_VERSION}-v2ray-plugin-${V2RAY_PLUGIN_VERSION} \

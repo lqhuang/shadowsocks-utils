@@ -2,12 +2,12 @@ version: "3"
 
 services:
   ss-local:
-    image: lqhuang/shadowsocks-rust:ss-local-v1.8.18-v2ray-plugin-v1.3.1
+    image: lqhuang/shadowsocks-libev:ss-local-v3.3.5-v2ray-plugin-v1.3.1
     container_name: ss-local
     hostname: ss-local
     restart: always
-    # environment:
-    #   - ARGS=-v
+    environment:
+      - ARGS=-v
     ports:
       - 1080:1080/tcp
       - 1080:1080/udp

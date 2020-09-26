@@ -36,4 +36,4 @@ expose 1080/tcp 1080/udp 8118/tcp
 HEALTHCHECK --timeout=10s CMD curl -x http://localhost:8118 https://www.google.com/gen_204 || exit 1
 
 CMD privoxy /etc/privoxy/config \
-    && sslocal --local-addr 0.0.0.0:1080 -u -c ${CONFIG_FILE} ${ARGS}
+    && sslocal --local-addr 0.0.0.0:1080 -c ${CONFIG_FILE} ${ARGS}

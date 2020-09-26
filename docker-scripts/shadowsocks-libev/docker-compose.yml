@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  sslocal:
+    image: lqhuang/shadowsocks-libev:ss-server-v3.3.5-v2ray-plugin-v1.3.1
+    container_name: ss-server
+    hostname: ss-server
+    restart: always
+    ports:
+      - 127.0.0.1:8388:8388/tcp
+      - 127.0.0.1:8388:8388/udp
+    volumes:
+      - /dev/urandom:/dev/random
+      - ./config.json:/etc/shadowsocks-libev/config.json
+    network_mode: "bridge"
