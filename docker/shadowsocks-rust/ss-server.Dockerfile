@@ -39,6 +39,7 @@ USER nobody
 
 EXPOSE ${SERVER_PORT}/tcp ${SERVER_PORT}/udp
 
-ENTRYPOINT ["ssserver", "--tcp-no-delay"]
+# Inject ${VAR} as shell variable, so entrypoint needs to be wrapped with `sh`
+ENTRYPOINT ["sh -c", "ssserver", "--tcp-no-delay"]
 
 CMD ["--server-addr", "${SERVER_ADDR}:${SERVER_PORT}", "-c", "${CONFIG_FILE}"]

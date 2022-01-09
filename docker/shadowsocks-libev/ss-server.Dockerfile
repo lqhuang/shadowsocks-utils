@@ -34,6 +34,7 @@ USER nobody
 
 EXPOSE ${SERVER_PORT}/tcp ${SERVER_PORT}/udp
 
-ENTRYPOINT ["ss-server", "--reuse-port", "--no-delay"]
+# Inject ${VAR} as shell variable, so entrypoint needs to be wrapped with `sh`
+ENTRYPOINT ["sh -c", "ss-server", "--reuse-port", "--no-delay"]
 
 CMD ["-b", "${SERVER_ADDR}", "-p", "${SERVER_PORT}", "-c", "${CONFIG_FILE}"]
