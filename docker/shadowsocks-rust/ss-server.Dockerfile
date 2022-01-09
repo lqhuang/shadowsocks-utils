@@ -39,6 +39,6 @@ USER nobody
 
 EXPOSE ${SERVER_PORT}/tcp ${SERVER_PORT}/udp
 
-ENTRYPOINT ssserver --tcp-no-delay
+ENTRYPOINT ["ssserver", "--tcp-no-delay"]
 
-CMD  --server-addr ${SERVER_ADDR}:${SERVER_PORT} -c ${CONFIG_FILE}
+CMD ["--server-addr", "${SERVER_ADDR}:${SERVER_PORT}", "-c", "${CONFIG_FILE}"]

@@ -40,6 +40,7 @@ USER nobody
 
 HEALTHCHECK --timeout=10s CMD curl -x http://localhost:8118 https://www.google.com/gen_204 || exit 1
 
-ENTRYPOINT privoxy /etc/privoxy/config && ss-local --reuse-port --no-delay
+# Keep this execute as shell command
+ENTRYPOINT ["/bin/sh", "-c", "privoxy", "/etc/privoxy/config", "&&", "ss-local", "--reuse-port", "--no-delay"]
 
-CMD -b ${LOCAL_SERVER} -l ${LOCAL_PORT} -c ${CONFIG_FILE}
+CMD ["-b", "${LOCAL_SERVER}", "-l", "${LOCAL_PORT}", "-c", "${CONFIG_FILE}"]

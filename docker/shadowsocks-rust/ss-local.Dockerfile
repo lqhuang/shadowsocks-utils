@@ -42,6 +42,6 @@ USER nobody
 
 HEALTHCHECK --timeout=10s CMD curl -x http://localhost:${LOCAL_PORT} https://www.google.com/gen_204 || exit 1
 
-ENTRYPOINT sslocal --tcp-no-delay
+ENTRYPOINT ["sslocal", "--tcp-no-delay"]
 
-CMD --local-addr ${LOCAL_SERVER}:${LOCAL_PORT} -c ${CONFIG_FILE}
+CMD ["--local-addr", "${LOCAL_SERVER}:${LOCAL_PORT}", "-c", "${CONFIG_FILE}"]

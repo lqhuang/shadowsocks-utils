@@ -34,6 +34,6 @@ USER nobody
 
 EXPOSE ${SERVER_PORT}/tcp ${SERVER_PORT}/udp
 
-ENTRYPOINT ss-server --reuse-port --no-delay
+ENTRYPOINT ["ss-server", "--reuse-port", "--no-delay"]
 
-CMD -b ${SERVER_ADDR} -p ${SERVER_PORT} -c ${CONFIG_FILE}
+CMD ["-b", "${SERVER_ADDR}", "-p", "${SERVER_PORT}", "-c", "${CONFIG_FILE}"]
