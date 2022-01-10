@@ -1,25 +1,33 @@
-# Optimize the shadowsocks server on Linux
+# Shadowsocks Tuning
+
+## Optimize the shadowsocks server on Linux
 
 First of all, upgrade your Linux kernel to 3.5 or later.
 
-## Step 1, increase the maximum number of open file descriptors
+### Step 1, increase the maximum number of open file descriptors
 
 To handle thousands of concurrent TCP connections, we should increase the limit of file descriptors opened.
 
 Edit the `limits.conf`
 
-    vi /etc/security/limits.conf
+```shell
+vi /etc/security/limits.conf
+```
 
 Add these two lines
 
-    * soft nofile 51200
-    * hard nofile 51200
+```plain
+* soft nofile 51200
+* hard nofile 51200
+```
 
 Then, before you start the shadowsocks server, set the `ulimit` first
 
-    ulimit -n 51200
+```shell
+ulimit -n 51200
+```
 
-## step 2 - Tune the kernel parameters
+### step 2 - Tune the kernel parameters
 
 The priciples of tuning parameters for shadowsocks are
 
@@ -29,7 +37,7 @@ The priciples of tuning parameters for shadowsocks are
 
 Here is an example `/etc/sysctl.conf` of our production servers:
 
-```
+```shell
 sudo tee -a /etc/sysctl.d/20-ss-tuning.conf << EOF
 # fs.file-max = 51200
 fs.file-max = 8192
@@ -59,7 +67,7 @@ Of course, remember to execute `sysctl -p` to reload the config at runtime.
 
 > TFO is enabled for client operations by setting bit 0 (with a value of "1" ). Bit 1 (value "2" ) enables TFO for server operations; setting both bits (with a value of "3" ) enables both modes.
 
-## 开启 TCP BBR
+## Enable TCP BBR
 
 只要 Linux 发行版的 Kernel 即内核版本大于等于 4.9 即可开启，开启方法是通用的。
 
@@ -67,11 +75,15 @@ Of course, remember to execute `sysctl -p` to reload the config at runtime.
 
 如果没有结果，则通过 `modprobe` 添加 `tcp_bbr` 选项
 
-    sudo modprobe tcp_bbr
+```shell
+sudo modprobe tcp_bbr
+```
 
 或通过配置文件中设置进行加载
 
-    echo "tcp_bbr" | sudo tee -a /etc/modules-load.d/network-bbr.conf
+```shell
+echo "tcp_bbr" | sudo tee -a /etc/modules-load.d/network-bbr.conf
+```
 
 通过以下方式确保系统中已经装载 `BBR` 模块
 
@@ -92,7 +104,7 @@ EOF
 About choice of `fq` or [`fq_codel`](https://www.bufferbloat.net/projects/codel/wiki/):
 
 - `net.core.default_qdisc = fq_codel` - best general purpose qdisc
-- `net.core.default_qdisc = fq` - for fat servers, fq_codel for routers.
+- `net.core.default_qdisc = fq` - for fat servers, `fq_codel` for routers.
 
 保存生效
 
@@ -106,6 +118,11 @@ About choice of `fq` or [`fq_codel`](https://www.bufferbloat.net/projects/codel/
 
 如果结果是这样
 
-    >> net.ipv4.tcp_congestion_control = bbr
+    net.ipv4.tcp_congestion_control = bbr
 
 就开启了。
+
+## Enable TCP ECN
+
+1. [Wikipedia: Explicit Congestion Notification](https://en.wikipedia.org/wiki/Explicit_Congestion_Notification)
+2. [Sysctl Explorer: tcp_ecn](https://sysctl-explorer.net/net/ipv4/tcp_ecn)
