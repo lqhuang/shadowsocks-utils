@@ -17,7 +17,7 @@ RUN set -ex \
     && apk add --no-cache --virtual .build-deps tar xz
 
 RUN set -ex \
-    && wget -cq -O /root/shadowsocks-rust.tar.xz https://github.com/klzgrad/naiveproxy/releases/download/${NAIVEPROXY_VERSION}/naiveproxy-${NAIVEPROXY_VERSION}-linux-x64.tar.xz \
+    && wget -cq -O /root/naiveproxy.tar.xz https://github.com/klzgrad/naiveproxy/releases/download/${NAIVEPROXY_VERSION}/naiveproxy-${NAIVEPROXY_VERSION}-linux-x64.tar.xz \
     && tar --strip-components=1 -C /usr/local/bin -xvJf /root/naiveproxy.tar.xz \
     && rm -f /root/naiveproxy.tar.xz
 
