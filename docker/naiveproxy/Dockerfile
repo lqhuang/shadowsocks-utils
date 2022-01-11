@@ -13,11 +13,11 @@ USER root
 
 RUN set -ex \
     && mkdir -p /etc/naiveproxy \
-    && apk add -U --no-cache curl \
+    && apk add -U --no-cache nss \
     && apk add --no-cache --virtual .build-deps tar xz
 
 RUN set -ex \
-    && wget -cq -O /root/naiveproxy.tar.xz https://github.com/klzgrad/naiveproxy/releases/download/${NAIVEPROXY_VERSION}/naiveproxy-${NAIVEPROXY_VERSION}-linux-x64.tar.xz \
+    && wget -cq -O /root/naiveproxy.tar.xz https://github.com/klzgrad/naiveproxy/releases/download/${NAIVEPROXY_VERSION}/naiveproxy-${NAIVEPROXY_VERSION}-openwrt-x86_64.tar.xz \
     && tar --strip-components=1 -C /usr/local/bin -xvJf /root/naiveproxy.tar.xz \
     && rm -f /root/naiveproxy.tar.xz
 
