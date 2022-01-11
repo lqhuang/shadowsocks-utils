@@ -13,7 +13,7 @@ USER root
 
 RUN set -ex \
     && mkdir -p /etc/naiveproxy \
-    && apk add -U --no-cache nss \
+    && apk add -U --no-cache libgcc nss \
     && apk add --no-cache --virtual .build-deps tar xz
 
 RUN set -ex \
