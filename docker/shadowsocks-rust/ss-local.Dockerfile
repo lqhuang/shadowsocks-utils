@@ -43,6 +43,6 @@ USER nobody
 HEALTHCHECK --timeout=10s CMD curl -x http://localhost:${LOCAL_PORT} https://www.google.com/gen_204 || exit 1
 
 # Inject ${VAR} as shell variable, so entrypoint needs to be wrapped with `sh`
-ENTRYPOINT ["sh -c", "sslocal", "--tcp-no-delay"]
+ENTRYPOINT ["sh", "-c", "sslocal", "--tcp-no-delay"]
 
 CMD ["--local-addr", "${LOCAL_SERVER}:${LOCAL_PORT}", "-c", "${CONFIG_FILE}"]
