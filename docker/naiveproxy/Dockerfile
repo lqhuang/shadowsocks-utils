@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 LABEL maintainer="lqhuang <lqhuang@outlook.com>"
-LABEL description="naiveproxy"
+LABEL description="container for naiveproxy"
 
 ARG NAIVEPROXY_VERSION
 
