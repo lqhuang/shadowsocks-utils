@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - docker/naiveproxy/naiveproxy.env
+  workflow_dispatch:
 
 defaults:
   run:
