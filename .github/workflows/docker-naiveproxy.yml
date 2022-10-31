@@ -11,7 +11,7 @@ defaults:
     shell: bash
 
 env:
-  DOCKER_CONTEXT: docker/naiveproxy
+  DOCKER_CONTEXT: ./docker/naiveproxy
 
 jobs:
   docker:
