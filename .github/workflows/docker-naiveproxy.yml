@@ -40,7 +40,7 @@ jobs:
         with:
           platforms: linux/amd64 # ,linux/arm64
           context: ./docker/naiveproxy
-          file: "{context}/Dockerfile"
+          file: Dockerfile
           build-args: |
             NAIVEPROXY_VERSION=${{ env.NAIVEPROXY_VERSION }}
           push: true
