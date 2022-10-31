@@ -1,0 +1,51 @@
+name: Build docker for naiveproxy client
+
+on:
+  push:
+    paths:
+      - docker/naiveproxy/naiveproxy.env
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  docker:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+
+      - name: Docker Setup Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ github.token }}
+
+      - name: Load build args for Dockerfile
+        run: |
+          source docker/naiveproxy/naiveproxy.env
+          echo "NAIVEPROXY_VERSION=$NAIVEPROXY_VERSION" >> $GITHUB_ENV
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3.2.0
+        with:
+          platforms: linux/amd64 # ,linux/arm64
+          context: ./docker/naiveproxy
+          file: "{context}/Dockerfile"
+          build-args: |
+            NAIVEPROXY_VERSION=${{ env.NAIVEPROXY_VERSION }}
+          push: true
+          tags: |
+            lqhuang/naiveproxy:naiveproxy-${{ env.NAIVEPROXY_VERSION }}
+            lqhuang/naiveproxy:naiveproxy-latest
+            ghcr.io/lqhuang/naiveproxy:naiveproxy-${{ env.NAIVEPROXY_VERSION }}
+            ghcr.io/lqhuang/naiveproxy:naiveproxy-latest
