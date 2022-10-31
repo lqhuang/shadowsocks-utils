@@ -11,7 +11,7 @@ defaults:
     shell: bash
 
 env:
-  DOCKER_CONTEXT: shadowsocks-utils/docker/naiveproxy
+  CONTEXT_ROOT: docker/naiveproxy
 
 jobs:
   docker:
@@ -37,14 +37,14 @@ jobs:
 
       - name: Load build args for Dockerfile
         run: |
-          source ${{ env.DOCKER_CONTEXT }}/naiveproxy.env
+          source ${{ env.CONTEXT_ROOT }}/naiveproxy.env
           echo "NAIVEPROXY_VERSION=$NAIVEPROXY_VERSION" >> $GITHUB_ENV
       - name: Build and push Docker images
         uses: docker/build-push-action@v3.2.0
         with:
           platforms: linux/amd64 # ,linux/arm64
-          context: ${{ env.DOCKER_CONTEXT }}
-          file: ${{ env.DOCKER_CONTEXT }}/Dockerfile
+          context: ${{ env.CONTEXT_ROOT }}
+          file: ${{ env.CONTEXT_ROOT }}/Dockerfile
           build-args: |
             NAIVEPROXY_VERSION=${{ env.NAIVEPROXY_VERSION }}
           push: true
