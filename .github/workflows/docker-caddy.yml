@@ -50,9 +50,9 @@ jobs:
             CADDY_VERSION=${{ env.CADDY_VERSION }}
           push: true
           tags: |
-            lqhuang/caddy:${{ CADDY_VERSION }}
+            lqhuang/caddy:${{ env.CADDY_VERSION }}
             lqhuang/caddy:latest
-            ghcr.io/lqhuang/caddy:${{ CADDY_VERSION }}
+            ghcr.io/lqhuang/caddy:${{ env.CADDY_VERSION }}
             ghcr.io/lqhuang/caddy:latest
           cache-from: |
             type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/caddy:cache
