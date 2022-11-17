@@ -16,12 +16,6 @@ which `openwrt` and `alpine` are all compatible for `musl`. Also, dependency lib
 > - https://github.com/klzgrad/naiveproxy/issues/37
 > - https://github.com/klzgrad/naiveproxy/issues/50
 
-## Extra modules for caddy
-
-- <https://github.com/mholt/caddy-l4>
-- <https://github.com/caddy-dns/cloudflare>
-- <https://github.com/klzgrad/forwardproxy>
-
 ## References
 
 1. [Github - klzgrad/naiveproxy](https://github.com/klzgrad/naiveproxy)
