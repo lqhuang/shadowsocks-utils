@@ -6,7 +6,8 @@ First of all, upgrade your Linux kernel to 3.5 or later.
 
 ### Step 1, increase the maximum number of open file descriptors
 
-To handle thousands of concurrent TCP connections, we should increase the limit of file descriptors opened.
+To handle thousands of concurrent TCP connections, we should increase the limit
+of file descriptors opened.
 
 Edit the `limits.conf`
 
@@ -65,7 +66,9 @@ EOF
 
 Of course, remember to execute `sysctl -p` to reload the config at runtime.
 
-> TFO is enabled for client operations by setting bit 0 (with a value of "1" ). Bit 1 (value "2" ) enables TFO for server operations; setting both bits (with a value of "3" ) enables both modes.
+> TFO is enabled for client operations by setting bit 0 (with a value of "1" ).
+> Bit 1 (value "2" ) enables TFO for server operations; setting both bits (with
+> a value of "3" ) enables both modes.
 
 ## Enable TCP BBR
 
@@ -101,7 +104,8 @@ net.ipv4.tcp_congestion_control = bbr
 EOF
 ```
 
-About choice of `fq` or [`fq_codel`](https://www.bufferbloat.net/projects/codel/wiki/):
+About choice of `fq` or
+[`fq_codel`](https://www.bufferbloat.net/projects/codel/wiki/):
 
 - `net.core.default_qdisc = fq_codel` - best general purpose qdisc
 - `net.core.default_qdisc = fq` - for fat servers, `fq_codel` for routers.
@@ -126,3 +130,7 @@ About choice of `fq` or [`fq_codel`](https://www.bufferbloat.net/projects/codel/
 
 1. [Wikipedia: Explicit Congestion Notification](https://en.wikipedia.org/wiki/Explicit_Congestion_Notification)
 2. [Sysctl Explorer: tcp_ecn](https://sysctl-explorer.net/net/ipv4/tcp_ecn)
+
+## Reference
+
+- [networking/ip-sysctl.txt](https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt)
