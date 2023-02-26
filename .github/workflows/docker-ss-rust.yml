@@ -1,0 +1,65 @@
+name: Build docker for shadowsocks-rust
+
+on:
+  push:
+    paths:
+      - docker/shadowsocks-rust/.env
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  CONTEXT_ROOT: docker/shadowsocks-rust
+
+jobs:
+  docker:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        client: ["local", "server"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+
+      - name: Docker Setup Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ github.token }}
+
+      - name: Load build args for Dockerfile
+        run: |
+          source ${{ env.CONTEXT_ROOT }}/.env
+          echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
+          echo "SHADOWSOCKS_RUST_VERSION=$SHADOWSOCKS_RUST_VERSION" >> $GITHUB_ENV
+          echo "V2RAY_PLUGIN_VERSION=$V2RAY_PLUGIN_VERSION" >> $GITHUB_ENV
+          echo "QTUN_PLUGIN_VERSION=$QTUN_PLUGIN_VERSION" >> $GITHUB_ENV
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3.2.0
+        with:
+          platforms: linux/amd64 # ,linux/arm64
+          context: ${{ env.CONTEXT_ROOT }}
+          file: ${{ env.CONTEXT_ROOT }}/Dockerfile
+          build-args: |
+            RELEASE_VERSION=${{ env.RELEASE_VERSION }}
+            SHADOWSOCKS_RUST_VERSION=${{ env.SHADOWSOCKS_RUST_VERSION }}
+            V2RAY_PLUGIN_VERSION=${{ env.V2RAY_PLUGIN_VERSION }}
+            QTUN_PLUGIN_VERSION=${{ env.QTUN_PLUGIN_VERSION }}
+          push: true
+          tags: |
+            lqhuang/shadowsocks-rust:ss-${{ matrix.client }}-${{ env.RELEASE_VERSION }}
+            lqhuang/shadowsocks-rust:ss-${{ matrix.client }}-latest
+            ghcr.io/lqhuang/shadowsocks-rust:ss-${{ matrix.client }}-${{ env.RELEASE_VERSION }}
+            ghcr.io/lqhuang/shadowsocks-rust:ss-${{ matrix.client }}-latest
