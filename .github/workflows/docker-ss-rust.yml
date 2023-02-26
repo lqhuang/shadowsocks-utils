@@ -51,7 +51,7 @@ jobs:
         with:
           platforms: linux/amd64 # ,linux/arm64
           context: ${{ env.CONTEXT_ROOT }}
-          file: ${{ env.CONTEXT_ROOT }}/Dockerfile
+          file: ${{ env.CONTEXT_ROOT }}/ss-${{ matrix.client }}.Dockerfile
           build-args: |
             RELEASE_VERSION=${{ env.RELEASE_VERSION }}
             SHADOWSOCKS_RUST_VERSION=${{ env.SHADOWSOCKS_RUST_VERSION }}

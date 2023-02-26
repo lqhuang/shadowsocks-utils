@@ -50,7 +50,7 @@ jobs:
             NAIVEPROXY_VERSION=${{ env.NAIVEPROXY_VERSION }}
           push: true
           tags: |
-            lqhuang/naiveproxy:naiveproxy-${{ env.NAIVEPROXY_VERSION }}
-            lqhuang/naiveproxy:naiveproxy-latest
-            ghcr.io/lqhuang/naiveproxy:naiveproxy-${{ env.NAIVEPROXY_VERSION }}
-            ghcr.io/lqhuang/naiveproxy:naiveproxy-latest
+            lqhuang/naiveproxy:${{ env.NAIVEPROXY_VERSION }}
+            lqhuang/naiveproxy:latest
+            ghcr.io/lqhuang/naiveproxy:${{ env.NAIVEPROXY_VERSION }}
+            ghcr.io/lqhuang/naiveproxy:latest
