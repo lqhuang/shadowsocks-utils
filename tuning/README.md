@@ -131,6 +131,8 @@ About choice of `fq` or
 1. [Wikipedia: Explicit Congestion Notification](https://en.wikipedia.org/wiki/Explicit_Congestion_Notification)
 2. [Sysctl Explorer: tcp_ecn](https://sysctl-explorer.net/net/ipv4/tcp_ecn)
 
-## Reference
+## References
 
 - [networking/ip-sysctl.txt](https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt)
+- [sysctl](https://wiki.archlinux.org/title/sysctl)
+- [Linux 网络调优：内核网络栈参数篇](https://www.starduster.me/2020/03/02/linux-network-tuning-kernel-parameter/)
