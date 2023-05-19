@@ -51,6 +51,7 @@ jobs:
             YACD_VERSION=${{ env.YACD_VERSION }}
             CLASH_PREMIUM_VERSION=${{ env.CLASH_PREMIUM_VERSION }}
           push: true
+          provenance: mode=min,inline-only=true
           tags: |
             lqhuang/clash-premium:${{ env.CLASH_PREMIUM_VERSION }}
             ghcr.io/lqhuang/clash-premium:${{ env.CLASH_PREMIUM_VERSION }}

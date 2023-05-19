@@ -58,6 +58,7 @@ jobs:
             V2RAY_PLUGIN_VERSION=${{ env.V2RAY_PLUGIN_VERSION }}
             QTUN_PLUGIN_VERSION=${{ env.QTUN_PLUGIN_VERSION }}
           push: true
+          provenance: mode=min,inline-only=true
           tags: |
             lqhuang/shadowsocks-rust:ss-${{ matrix.client }}-${{ env.RELEASE_VERSION }}
             lqhuang/shadowsocks-rust:ss-${{ matrix.client }}-latest

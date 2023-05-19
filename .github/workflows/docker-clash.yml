@@ -51,6 +51,7 @@ jobs:
             YACD_VERSION=${{ env.YACD_VERSION }}
             CLASH_CORE_VERSION=${{ env.CLASH_CORE_VERSION }}
           push: true
+          provenance: mode=min,inline-only=true
           tags: |
             lqhuang/clash:${{ env.CLASH_CORE_VERSION }}
             ghcr.io/lqhuang/clash:${{ env.CLASH_CORE_VERSION }}

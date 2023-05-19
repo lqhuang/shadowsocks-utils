@@ -49,6 +49,7 @@ jobs:
           build-args: |
             NAIVEPROXY_VERSION=${{ env.NAIVEPROXY_VERSION }}
           push: true
+          provenance: mode=min,inline-only=true
           tags: |
             lqhuang/naiveproxy:${{ env.NAIVEPROXY_VERSION }}
             lqhuang/naiveproxy:latest

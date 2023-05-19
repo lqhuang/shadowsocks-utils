@@ -49,6 +49,7 @@ jobs:
           build-args: |
             CADDY_VERSION=${{ env.CADDY_VERSION }}
           push: true
+          provenance: mode=min,inline-only=true
           tags: |
             lqhuang/caddy:${{ env.CADDY_VERSION }}
             lqhuang/caddy:latest
