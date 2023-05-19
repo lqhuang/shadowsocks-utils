@@ -1,0 +1,61 @@
+name: Build docker for Clash
+
+on:
+  push:
+    paths:
+      - docker/clash/.env
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  CONTEXT_ROOT: docker/clash
+
+jobs:
+  docker:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        features: ["core", "premium"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+
+      - name: Docker Setup Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ github.token }}
+
+      - name: Load build args for Dockerfile
+        run: |
+          source ${{ env.CONTEXT_ROOT }}/.env
+          echo "YACD_VERSION=$YACD_VERSION" >> $GITHUB_ENV
+          echo "CLASH_CORE_VERSION=$CLASH_CORE_VERSION" >> $GITHUB_ENV
+          echo "CLASH_PREMIUM_VERSION=$CLASH_PREMIUM_VERSION" >> $GITHUB_ENV
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3.2.0
+        with:
+          platforms: linux/amd64,linux/arm64
+          context: ${{ env.CONTEXT_ROOT }}
+          file: ${{ env.CONTEXT_ROOT }}/clash-${{ matrix.features }}.Dockerfile
+          build-args: |
+            YACD_VERSION=${{ env.YACD_VERSION }}
+            CLASH_CORE_VERSION=${{ env.CLASH_CORE_VERSION }}
+            CLASH_PREMIUM_VERSION=${{ env.CLASH_PREMIUM_VERSION }}
+          push: true
+          tags: |
+            lqhuang/clash${{ matrix.features == 'core' && '' || '-premium' }}:${{ matrix.features == 'core' && env.CLASH_CORE_VERSION || env.CLASH_PREMIUM_VERSION }}
+            ghcr.io/lqhuang/clash${{ matrix.features == 'core' && '' || '-premium' }}:${{ matrix.features == 'core' && env.CLASH_CORE_VERSION || env.CLASH_PREMIUM_VERSION }}
