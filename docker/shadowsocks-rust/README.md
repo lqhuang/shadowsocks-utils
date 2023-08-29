@@ -2,12 +2,14 @@
 
 ## Latest version
 
-- `shadowsocks-rust`: v1.15.4
+- `shadowsocks-rust`: v1.16.0
 - `v2ray-plugin`: v1.3.2
 - `qtun`: v0.2.0
 
 ## Changelog & release notes
 
+- 2023.08.29
+  - Bump `shadowsocks-rust` to `v1.16.0`
 - 2023.08.17
   - Bump `shadowsocks-rust` to `v1.15.4`
 - 2023.02.26
