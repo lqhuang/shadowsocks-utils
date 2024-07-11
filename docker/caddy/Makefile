@@ -1,4 +1,4 @@
-CADDY_VERSION=2.6.2
+CADDY_VERSION=2.8.4
 
 caddy:
 	docker build \
