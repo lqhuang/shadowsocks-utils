@@ -1,4 +1,6 @@
-CADDY_VERSION := 2.9.1
+CURR_MKFILE_DIR := $(patsubst %/, %, $(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
+
+include ${CURR_MKFILE_DIR}/.env
 
 caddy:
 	docker build \
