@@ -14,11 +14,13 @@ env:
   CONTEXT_ROOT: docker/caddy
 
 jobs:
-  docker:
-    runs-on: ubuntu-20.04
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v3.10.0
@@ -37,7 +39,9 @@ jobs:
 
       - name: Load build args for Dockerfile
         run: |
+          echo "Sourcing ${{ env.CONTEXT_ROOT }}/.env"
           source ${{ env.CONTEXT_ROOT }}/.env
+          echo "Loaded envs: CADDY_VERSION=$CADDY_VERSION"
           echo "CADDY_VERSION=$CADDY_VERSION" >> $GITHUB_ENV
 
       - name: Build and push Docker images
@@ -52,9 +56,7 @@ jobs:
           provenance: mode=min,inline-only=true
           tags: |
             lqhuang/caddy:${{ env.CADDY_VERSION }}
-            lqhuang/caddy:latest
             ghcr.io/lqhuang/caddy:${{ env.CADDY_VERSION }}
-            ghcr.io/lqhuang/caddy:latest
           cache-from: |
             type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/caddy:cache
           cache-to: |
