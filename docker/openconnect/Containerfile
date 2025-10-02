@@ -1,0 +1,32 @@
+ARG OC_DEV_VERSION
+
+FROM debian:12.12-slim AS build
+
+RUN set -xe \
+    && apt update -y \
+    && apt install -y --no-install-recommends curl ca-certificates \
+    # Install dependencies of openconnect \
+    && apt install -y --no-install-recommends vpnc-scripts libproxy1v5 libxml2 \
+    # Install dependencies of libopenconnect5 \
+    && apt install -y --no-install-recommends libpcsclite1 libpskc0 libstoken1 libtss2-esys-3.0.2-0 libtss2-mu0 libtss2-tctildr0 \
+    && apt autoclean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN set -xe \
+    && curl -L https://download.opensuse.org/repositories/home:/bluca:/openconnect/Debian_12/amd64/openconnect_${OC_DEV_VERSION}_amd64.deb -o openconnect.deb \
+    && curl -L https://download.opensuse.org/repositories/home:/bluca:/openconnect/Debian_12/amd64/libopenconnect5_${OC_DEV_VERSION}_amd64.deb -o libopenconnect5.deb \
+    && dpkg -c openconnect.deb \
+    && dpkg -c libopenconnect5.deb \
+    && dpkg -i libopenconnect5.deb openconnect.deb \
+    # Cleanup
+    && rm -f libopenconnect5.deb openconnect.deb \
+    && rm -rf /usr/share/doc/ /usr/share/lintian/ /usr/share/locale/ /usr/share/bash-completion/ /usr/share/man/ \
+    # Create config dir
+    && mkdir -p /etc/openconnect \
+    && touch /etc/openconnect/openconnect.conf
+
+VOLUME /etc/openconnect
+
+ENTRYPOINT ["openconnect", "--config=/etc/openconnect/openconnect.conf"]
+
+CMD ["--help"]
