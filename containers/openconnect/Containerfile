@@ -38,6 +38,7 @@ RUN <<-EOS
 EOS
 
 VOLUME /etc/openconnect
+VOLUME /etc/sing-box/config.json
 
 ENTRYPOINT ["openconnect", "--config=/etc/openconnect/openconnect.conf"]
 
