@@ -1,0 +1,12 @@
+{
+  "inbounds": [
+    {
+      "type": "socks",
+      "tag": "socks-in",
+      "listen": "::",
+      "tcp_multi_path": false,
+      "udp_fragment": false,
+      "listen_port": 1080
+    }
+  ]
+}

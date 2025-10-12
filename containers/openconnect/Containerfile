@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 FROM ghcr.io/sagernet/sing-box:v1.12.9 AS sb-dist
 
-FROM debian:12.12-slim AS build
+FROM docker.io/lqhuang/debian-s6:12.12-slim AS final
 
 ARG OC_DEV_VERSION
 
@@ -37,9 +37,11 @@ RUN <<-EOS
     rm -rf /tmp/* /var/tmp/*
 EOS
 
+COPY ./rootfs /
+
 VOLUME /etc/openconnect
-VOLUME /etc/sing-box/config.json
 
-ENTRYPOINT ["openconnect", "--config=/etc/openconnect/openconnect.conf"]
+ENTRYPOINT ["/init"]
 
-CMD ["--help"]
+CMD ["openconnect", "--help"]
+# "--config=/etc/openconnect/openconnect.conf"
