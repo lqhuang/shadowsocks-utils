@@ -1,0 +1,47 @@
+# check=error=true
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+FROM ghcr.io/sagernet/sing-box:v1.12.9 AS sb-dist
+
+FROM docker.io/lqhuang/debian-s6:12.12-slim AS final
+
+ARG OC_DEV_VERSION
+
+COPY --from=sb-dist /usr/local/bin/sing-box /usr/bin/sing-box
+ADD https://download.opensuse.org/repositories/home:/bluca:/openconnect/Debian_12/amd64/openconnect_${OC_DEV_VERSION}_amd64.deb /tmp/openconnect.deb
+ADD https://download.opensuse.org/repositories/home:/bluca:/openconnect/Debian_12/amd64/libopenconnect5_${OC_DEV_VERSION}_amd64.deb /tmp/libopenconnect5.deb
+
+RUN <<-EOS
+    set -ex
+
+    apt-get update
+    apt-get upgrade -y # ensure security upgrades
+    apt-get install -y --no-install-recommends ca-certificates
+    apt-get install -y --no-install-recommends vpnc-scripts libproxy1v5 libxml2 # Install dependencies of openconnect
+    apt-get install -y --no-install-recommends libpcsclite1 libpskc0 libstoken1 libtss2-esys-3.0.2-0 libtss2-mu0 libtss2-tctildr0 # Install dependencies of libopenconnect5
+    apt-get install -y --no-install-recommends tzdata nftables
+
+    dpkg -c /tmp/openconnect.deb
+    dpkg -c /tmp/libopenconnect5.deb
+    dpkg -i /tmp/libopenconnect5.deb /tmp/openconnect.deb
+
+    # Create config dir
+    mkdir -p /etc/openconnect
+    touch /etc/openconnect/openconnect.conf
+
+    apt autoclean
+    apt clean
+    rm -rf /usr/share/doc/ /usr/share/lintian/ /usr/share/locale/ /usr/share/bash-completion/ /usr/share/man/
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+    rm -rf /tmp/* /var/tmp/*
+EOS
+
+COPY ./rootfs /
+
+VOLUME /etc/openconnect
+
+ENTRYPOINT ["/init"]
+
+CMD ["openconnect", "--help"]
+# "--config=/etc/openconnect/openconnect.conf"
